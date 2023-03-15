@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
     <style>
+        #game-container {
+            display: flex;
+        }
+       
         #game-board {
             width: 400px;
             height: 400px;
@@ -22,10 +26,18 @@
         .food {
             background-color: #FFFFFF;
         }
+        
+        #score {
+            font-size: 24px;
+            margin-left: 20px;
+        }
     </style>
 </head>
 <body>
-    <div id="game-board"></div>
+    <div id="game-container">
+        <div id="game-board"></div>
+        <div id="score">Score: 0</div>
+    </div>
     <script>
         // Your JavaScript code will go here
 const gameBoard = document.getElementById("game-board");

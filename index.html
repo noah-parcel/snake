@@ -58,6 +58,7 @@ let gameOver = false;
 
 function startGame() {
   createFood();
+  updateScore(); // Add this line
   setInterval(moveSnake, speed);
 }
 
@@ -106,6 +107,12 @@ function renderGameBoard() {
     gameBoard.appendChild(div);
   });
 
+function updateScore() {
+  const scoreElement = document.getElementById("score");
+  const currentScore = parseInt(scoreElement.textContent.split(" ")[1]);
+  scoreElement.textContent = `Score: ${currentScore + 1}`;
+}
+    
   const foodDiv = document.createElement("div");
   foodDiv.style.left = `${food.x}px`;
   foodDiv.style.top = `${food.y}px`;

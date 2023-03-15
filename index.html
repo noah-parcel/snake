@@ -28,6 +28,93 @@
     <div id="game-board"></div>
     <script>
         // Your JavaScript code will go here
+        const gameBoard = document.getElementById("game-board");
+
+class SnakePart {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+let speed = 100;
+let snake = [new SnakePart(200, 200)];
+let food;
+let dx = 20;
+let dy = 0;
+let isGameOver = false;
+
+function setup() {
+  createFood();
+  setInterval(moveSnake, speed);
+}
+
+function createFood() {
+  food = new SnakePart(
+    Math.floor(Math.random() * gameBoard.clientWidth / 20) * 20,
+    Math.floor(Math.random() * gameBoard.clientHeight / 20) * 20
+  );
+}
+
+function moveSnake() {
+  if (isGameOver) return;
+  const head = new SnakePart(snake[0].x + dx, snake[0].y + dy);
+  snake.unshift(head);
+
+  if (head.x === food.x && head.y === food.y) {
+    createFood();
+  } else {
+    snake.pop();
+  }
+
+  detectCollision();
+  drawGameBoard();
+}
+
+function detectCollision() {
+  const head = snake[0];
+  if (head.x < 0 || head.x >= gameBoard.clientWidth || head.y < 0 || head.y >= gameBoard.clientHeight) {
+    isGameOver = true;
+  }
+
+  for (let i = 1; i < snake.length; i++) {
+    if (head.x === snake[i].x && head.y === snake[i].y) {
+      isGameOver = true;
+    }
+  }
+}
+
+function drawGameBoard() {
+  gameBoard.innerHTML = "";
+  snake.forEach(part => {
+    const div = document.createElement("div");
+    div.style.left = `${part.x}px`;
+    div.style.top = `${part.y}px`;
+    div.className = "snake-part";
+    gameBoard.appendChild(div);
+  });
+
+  const foodDiv = document.createElement("div");
+  foodDiv.style.left = `${food.x}px`;
+  foodDiv.style.top = `${food.y}px`;
+  foodDiv.className = "food";
+  gameBoard.appendChild(foodDiv);
+}
+
+function changeDirection(event) {
+  const LEFT_KEY = 37;
+  const RIGHT_KEY = 39;
+  const UP_KEY = 38;
+  const DOWN_KEY = 40;
+
+  if (event.keyCode === LEFT_KEY && dx !== 20) {
+    dx = -20;
+    dy = 0;
+  }
+
+  if (event.keyCode === RIGHT_KEY && dx !== -20) {
+    dx = 20
+
     </script>
 </body>
 </html>

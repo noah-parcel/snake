@@ -59,7 +59,6 @@ let gameOver = false;
 
 function startGame() {
   createFood();
-  updateScore(); // Add this line
   setInterval(moveSnake, speed);
 }
 
@@ -77,6 +76,7 @@ function moveSnake() {
 
   if (head.x === food.x && head.y === food.y) {
     createFood();
+    updateScore(); // Add this line to update the score when the snake eats the food
   } else {
     snake.pop();
   }

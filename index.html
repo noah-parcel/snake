@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
     <style>
+        #game-container {
+            display: flex;
+        }
+
         #game-board {
             width: 400px;
             height: 400px;
@@ -15,123 +19,58 @@
         .snake-part, .food {
             width: 20px;
             height: 20px;
-            background-color: green;
+            background-color: #3ACFC0;
             position: absolute;
         }
 
         .food {
-            background-color: red;
+            background-color: #3F8AEF;
+        }
+
+        #score {
+            font-size: 24px;
+            margin-left: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="game-board"></div>
+    <div id="game-container">
+        <div id="game-board"></div>
+        <div id="score">Score: 0</div>
+    </div>
     <script>
         // Your JavaScript code will go here
-const gameBoard = document.getElementById("game-board");
 
-class SnakeSegment {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
+        // ...
 
-let speed = 100;
-let snake = [new SnakeSegment(200, 200)];
-let food;
-let dx = 20;
-let dy = 0;
-let gameOver = false;
+        function moveSnake() {
+            if (gameOver) return;
+            const head = new SnakeSegment(snake[0].x + dx, snake[0].y + dy);
+            snake.unshift(head);
 
-function startGame() {
-  createFood();
-  setInterval(moveSnake, speed);
-}
+            if (head.x === food.x && head.y === food.y) {
+                createFood();
+                updateScore();
+            } else {
+                snake.pop();
+            }
 
-function createFood() {
-  food = new SnakeSegment(
-    Math.floor(Math.random() * gameBoard.clientWidth / 20) * 20,
-    Math.floor(Math.random() * gameBoard.clientHeight / 20) * 20
-  );
-}
+            checkCollision();
+            renderGameBoard();
+        }
 
-function moveSnake() {
-  if (gameOver) return;
-  const head = new SnakeSegment(snake[0].x + dx, snake[0].y + dy);
-  snake.unshift(head);
+        // ...
 
-  if (head.x === food.x && head.y === food.y) {
-    createFood();
-  } else {
-    snake.pop();
-  }
+        function updateScore() {
+            const scoreElement = document.getElementById("score");
+            const currentScore = parseInt(scoreElement.textContent.split(" ")[1]);
+            scoreElement.textContent = `Score: ${currentScore + 1}`;
+        }
 
-  checkCollision();
-  renderGameBoard();
-}
+        // ...
 
-function checkCollision() {
-  const head = snake[0];
-  if (head.x < 0 || head.x >= gameBoard.clientWidth || head.y < 0 || head.y >= gameBoard.clientHeight) {
-    gameOver = true;
-  }
-
-  for (let i = 1; i < snake.length; i++) {
-    if (head.x === snake[i].x && head.y === snake[i].y) {
-      gameOver = true;
-    }
-  }
-}
-
-function renderGameBoard() {
-  gameBoard.innerHTML = "";
-  snake.forEach(segment => {
-    const div = document.createElement("div");
-    div.style.left = `${segment.x}px`;
-    div.style.top = `${segment.y}px`;
-    div.className = "snake-part";
-    gameBoard.appendChild(div);
-  });
-
-  const foodDiv = document.createElement("div");
-  foodDiv.style.left = `${food.x}px`;
-  foodDiv.style.top = `${food.y}px`;
-  foodDiv.className = "food";
-  gameBoard.appendChild(foodDiv);
-}
-
-function updateDirection(event) {
-  const LEFT_KEY = 37;
-  const RIGHT_KEY = 39;
-  const UP_KEY = 38;
-  const DOWN_KEY = 40;
-
-  if (event.keyCode === LEFT_KEY && dx !== 20) {
-    dx = -20;
-    dy = 0;
-  }
-
-  if (event.keyCode === RIGHT_KEY && dx !== -20) {
-    dx = 20;
-    dy = 0;
-  }
-
-  if (event.keyCode === UP_KEY && dy !== 20) {
-    dx = 0;
-    dy = -20;
-  }
-
-  if (event.keyCode === DOWN_KEY && dy !== -20) {
-    dx = 0;
-    dy = 20;
-  }
-}
-
-document.addEventListener("keydown", updateDirection);
-startGame();
-
-
+        document.addEventListener("keydown", updateDirection);
+        startGame();
     </script>
 </body>
 </html>

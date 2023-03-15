@@ -107,12 +107,6 @@ function renderGameBoard() {
     div.className = "snake-part";
     gameBoard.appendChild(div);
   });
-
-function updateScore() {
-  const scoreElement = document.getElementById("score");
-  const currentScore = parseInt(scoreElement.textContent.split(" ")[1]);
-  scoreElement.textContent = `Score: ${currentScore + 1}`;
-}
     
   const foodDiv = document.createElement("div");
   foodDiv.style.left = `${food.x}px`;
@@ -121,6 +115,12 @@ function updateScore() {
   gameBoard.appendChild(foodDiv);
 }
 
+function updateScore() {
+  const scoreElement = document.getElementById("score");
+  const currentScore = parseInt(scoreElement.textContent.split(" ")[1]);
+  scoreElement.textContent = `Score: ${currentScore + 1}`;
+}
+        
 function updateDirection(event) {
   const LEFT_KEY = 37;
   const RIGHT_KEY = 39;

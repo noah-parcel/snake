@@ -3,6 +3,9 @@
 <head>
     <title>News Table</title>
     <style>
+        body {
+            padding: 100px;  /* Adjust as needed */
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -27,8 +30,8 @@
 
     <script>
         // API URL and Key
-        // const API_KEY = a64c0161c4cb4ee98d54776bb943441c;  // Replace with your actual API key
-        const API_URL = `https://newsapi.org/v2/everything?q="NFT gaming"&from=2023-05-12&sortBy=popularity&apiKey=a64c0161c4cb4ee98d54776bb943441c`;
+        // const API_KEY = 'a64c0161c4cb4ee98d54776bb943441c';  // Replace with your actual API key
+        const API_URL = `https://newsapi.org/v2/everything?q="NFT gaming"&from=2023-06-01&sortBy=popularity&apiKey=a64c0161c4cb4ee98d54776bb943441c`;
 
         // Get table element
         var table = document.getElementById('news-table');
